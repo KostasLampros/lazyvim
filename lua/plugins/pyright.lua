@@ -9,8 +9,6 @@ return {
             python = {
               analysis = {
                 extraPaths = {
-                  "./code/python/producer",
-                  "./code/python/consumer",
                   "./code/python",
                 },
                 autoSearchPaths = true,

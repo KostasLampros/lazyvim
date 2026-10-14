@@ -8,7 +8,7 @@ return {
         ruff = {
           init_options = {
             settings = {
-              lineLength = 100,
+              lineLength = 88,
               lint = {
                 select = { "E", "F", "W", "I", "N", "UP", "B", "C4", "SIM" },
                 ignore = { "E501" },
@@ -16,6 +16,14 @@ return {
             },
           },
         },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "ruff_organize_imports", "ruff_format" },
       },
     },
   },
