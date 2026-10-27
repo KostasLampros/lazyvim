@@ -16,7 +16,14 @@ return {
       {
         "<leader>fP",
         function()
-          local base_dirs = { "~/Documents/azkaban", "~/Documents/migration", "~/.config" }
+          local base_dirs = {
+            "~/Documents/azkaban",
+            "~/Documents/migration",
+            "~/Documents/Projects/",
+            "~/.config/zsh/",
+            "~/.config/nvim/",
+            "~/.config/kmonad/",
+          }
           require("telescope.builtin").find_files({
             prompt_title = "Switch Project",
             cwd = vim.fn.expand("~"),
