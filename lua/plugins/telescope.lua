@@ -16,19 +16,37 @@ return {
       {
         "<leader>fP",
         function()
-          local base_dirs = {
+          -- every subdirectory of these is a project
+          local parent_dirs = {
             "~/Documents/azkaban",
             "~/Documents/migration",
             "~/Documents/Projects/",
+          }
+          -- these directories are projects themselves
+          local project_dirs = {
             "~/.config/zsh/",
             "~/.config/nvim/",
             "~/.config/kmonad/",
           }
+
+          local projects = {}
+          for _, parent in ipairs(parent_dirs) do
+            parent = vim.fs.normalize(vim.fn.expand(parent))
+            for name, type in vim.fs.dir(parent) do
+              if type == "directory" then
+                table.insert(projects, vim.fs.joinpath(parent, name))
+              end
+            end
+          end
+          for _, dir in ipairs(project_dirs) do
+            table.insert(projects, vim.fs.normalize(vim.fn.expand(dir)))
+          end
+
           require("telescope.builtin").find_files({
             prompt_title = "Switch Project",
             cwd = vim.fn.expand("~"),
-            search_dirs = base_dirs,
-            find_command = { "fd", "--type", "d", "--max-depth", "1" },
+            -- print the precomputed list instead of searching
+            find_command = vim.list_extend({ "printf", "%s\\n" }, projects),
             attach_mappings = function(prompt_bufnr, map)
               local actions = require("telescope.actions")
               local action_state = require("telescope.actions.state")
