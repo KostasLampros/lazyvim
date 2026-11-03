@@ -16,31 +16,8 @@ return {
       {
         "<leader>fP",
         function()
-          -- every subdirectory of these is a project
-          local parent_dirs = {
-            "~/Documents/azkaban",
-            "~/Documents/migration",
-            "~/Documents/Projects/",
-          }
-          -- these directories are projects themselves
-          local project_dirs = {
-            "~/.config/zsh/",
-            "~/.config/nvim/",
-            "~/.config/kmonad/",
-          }
-
-          local projects = {}
-          for _, parent in ipairs(parent_dirs) do
-            parent = vim.fs.normalize(vim.fn.expand(parent))
-            for name, type in vim.fs.dir(parent) do
-              if type == "directory" then
-                table.insert(projects, vim.fs.joinpath(parent, name))
-              end
-            end
-          end
-          for _, dir in ipairs(project_dirs) do
-            table.insert(projects, vim.fs.normalize(vim.fn.expand(dir)))
-          end
+          -- project directories are configured in lua/config/projects.lua
+          local projects = require("config.projects").list()
 
           require("telescope.builtin").find_files({
             prompt_title = "Switch Project",
